@@ -1,0 +1,575 @@
+<!doctype html>
+<html>
+<head>
+   <title>Video.js Markers Example</title>
+
+   <style>
+         p {
+         background-color: #eee;
+         border: thin solid #777;
+         padding: 10px;
+      }
+      ul#marker-list,ul#marker-list1{
+         list-style-type: none;
+         margin: 0;
+         padding: 0;
+         width: 300px;
+         margin-top: 10px;
+      }
+      
+      ul#marker-list,ul#marker-list1 li{
+         position: relative;
+         margin-bottom: -1px;
+         background-color: #fff;
+         border: 1px solid #ddd;       
+      }
+      ul#marker-list,ul#marker-list1 li:last-child {
+         margin-bottom: 0;
+         border-bottom-right-radius: 4px;
+         border-bottom-left-radius: 4px;
+      }
+      ul#marker-list,ul#marker-list1 li a{
+         display: block;
+         padding: 10px 15px;
+         color: #555;
+         text-decoration: none;
+      }
+      ul#marker-list,ul#marker-list1 li a:hover {
+         color: #555;
+         text-decoration: none;
+         background-color: #f5f5f5;
+      }
+      .vjs-tip-inner{
+         height: 80px;
+         width: 35px;
+         color: rgb(225, 110, 65);
+      }
+      .blue-marker-class{
+         background-color: #4949d8 !important;
+            }
+
+
+/* 
+               .vjs-break-overlay { 
+                  animation: hideAnimation 0s ease-in 5s;
+                  animation-fill-mode: forwards;
+               }
+
+               @keyframes hideAnimation {
+  to {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+  }
+} */
+
+
+
+
+
+
+
+
+
+
+                 /* /* /* video container */
+.videoContainer {
+  margin: 20px auto 0;
+}
+.advertisement{
+	position:absolute;
+  	color: rgb(230, 200, 98);
+  	padding: 5px 10px;
+  	text-align: right;
+  	background: rgba(0, 0, 0, 0.4);
+    bottom: 50px;
+  	right:0;
+  	font-size: 14px;
+  	font-weight: 700;
+  	z-index: 1 !important;
+}
+.hide{
+  display:none;
+}
+
+
+
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 280px;
+  margin-right:100px;
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 2px solid #525050;
+  z-index: 9;
+  margin-right:50%;
+  margin-bottom:250px;
+
+
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+.form-container input[type=text], .form-container input[type=password] {
+  width: 80%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: 1px solid #bbb8b8;
+  background: #f1f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #63d447;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 50%;
+  margin-bottom:10px;
+  margin-left:10px;
+
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: rgb(248, 98, 98);
+
+
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+   </style>
+   <link href="http://vjs.zencdn.net/4.3/video-js.css" rel="stylesheet">
+   <link href="../dist/videojs.markers.css" rel="stylesheet">
+
+</head>
+<body>
+
+  <p id="smile">0</p>
+  <h id="sm" >&#129409; : <h id="count">0</h></h>
+  <div class="videoContainer">
+
+   <video id="test_video" muted controls preload="none" preferFullWindow="true" class="video-js vjs-default-skin" width="720" height="350" >
+      <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+      <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm">
+      <!-- <source src="video.mp4" type="video/mp4"> -->
+
+   </video>
+  <div class="moveToVideoJs">
+   <div class="advertisement">
+      <!-- <button class="advertisement" onclick="openForm()">Comment </button> -->
+
+        <div class="form-popup" id="myForm">
+           <div class="form-container">
+              <h1>Comment</h1>
+           
+              <!-- <label for="email"><b>Email</b></label> -->
+              <input type="text" id="user_input" placeholder="Comment"required>
+           
+              
+           
+              <button class="btn" onclick="submit()" >Submit</button>
+              <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+           </div>
+        </div>
+     </div>
+ </div>
+
+</div>
+
+<!-- <label>Your input: </label> -->
+
+<p style="width: 20px;"><span id='display'></span></p>
+
+
+
+
+
+ 
+ <ul style="margin-left: 65%; margin-top: -30%;width: 100px;" id='marker-list'>Reactions :
+  
+ </ul>
+
+
+<ul style="margin-left: 65%; margin-top: 50px;"id='marker-list1'>Comments : 
+  
+
+</ul>
+
+
+ <!-- <div class='event-list'>
+  <div><b>Events: </b></div>
+</div> -->
+<!-- <div class='add'>Add</div> -->
+<ul id='list' style="color: red;">
+  <!-- <li> 😆: 50</li>
+  <li>ok</li>
+  <li>good</li> -->
+  
+</ul>
+
+  
+
+</body>
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="http://vjs.zencdn.net/4.3/video.js"></script>
+<script src='../dist/videojs-markers.js'></script>
+
+<script>
+   // initialize video.js
+   var player = videojs('test_video');
+
+
+   var emote=[];
+   var comment=[];
+   var timearray=[];
+
+
+   document.getElementById("test_video").addEventListener("loadedmetadata", function() {
+      // this.currentTime = 10;
+      console.log("okk")
+   });
+   // document.getElementsByClassName("vjs-marker")[0].style.color = "blue";
+
+
+   function onloadfun() {
+            var time=1552;
+         var time_count=time/20;
+         two_sec=2
+         console.log(time_count)
+
+         for (let i = 0; i < time_count; i++) {
+            markers.push({time: two_sec,
+                        text: "Chapter"+two_sec})
+            two_sec=two_sec+20
+         }
+      }
+
+   //load the marker plugin
+
+   var markers = [
+         // {
+         //    time: 9.5,
+         //    text: "Hello"
+         // }
+      ];
+
+   //load the marker plugin
+   player.markers({
+      markerTip:{
+         display: true,
+         text: function(marker){
+            return marker.text;
+         }
+      },
+      breakOverlay:{
+         display: true,
+         displayTime: 2,
+         text: function(marker) {
+            return "This is an break overlay: " + marker.text;
+         }
+      },
+      onMarkerReached: function(marker) {
+        console.log(marker);
+      },
+      markers: markers
+   });
+
+   var smile=0;
+            var smile1=0;
+            var smile2=0;
+            var smile3=0;
+            var j=0;
+            var cnt=0;
+            var open=0;
+            var c=0;
+
+
+
+
+            var myButton = player.controlBar.addChild("button");
+            var myButtonDom = myButton.el();
+            myButtonDom.innerHTML = '<button>&#128512</button>';
+            myButtonDom.style.cssText = 'font-size: 18px;';
+
+
+                        // $(document).ready(function(){
+
+            myButtonDom.onclick = function(){
+            
+               document.getElementById("smile").innerHTML = smile;
+               var currtime=player.currentTime();
+            // console.log(markers[0].time)
+               
+                                 smile++;
+                     
+                  l=document.getElementById("list").innerText
+                  // console.log(l)
+                  player.markers.add([{
+                        time: 95,
+                        text: "😀 : " + smile + "😀 : " + smile
+                     }]);
+                    
+
+                  console.log(emote.length)
+                  // emote.push({time:player.currentTime(),text :"😆"+player.currentTime()})
+                  // cnt++;
+                  console.log(emote)
+                  var currenttime1=player.currentTime();
+                     
+                     // var item1 = $("<li data-index='"+j+"'><a href='#'>"+emote[j].text+"</a></li>");
+                     // j++;
+                     // $("#marker-list").append(item1);
+
+
+         
+                  
+                  // if(currtime>markers[0].time && currtime <markers[1].time )
+                  // {
+                  //       // console.log("ok")
+                  //                smile1++;
+                  //                player.markers.add([{
+                  //                      time: markers[1].time,
+                  //                      text: "😀 : "+ smile1 + "😀 : " + smile1,
+                                       
+                  //                   }]);
+                  //                   // emote.push({time:player.currentTime(),text :"😆"+player.currentTime()})
+                  //                   // cnt++;
+         
+                  // }
+                  markers.push({time:player.currentTime(),text :"😀"+player.currentTime()})
+                  emote.push({time:player.currentTime(),text :"😀"+player.currentTime()})
+
+                                    cnt++;
+                  console.log('Marker',markers)
+                  start(cnt);
+
+                
+            } 
+          
+
+            var myButton1 = player.controlBar.addChild("button");
+            var myButtonDom1 = myButton1.el();
+            myButtonDom1.innerHTML = '<button> &#128533</button>';
+            myButtonDom1.style.cssText = 'font-size: 18px;';
+
+            myButtonDom1.onclick = function(){
+            
+               var t=player.currentTime();
+               t=Math.trunc(t)
+               console.log(t)
+
+
+               if(t%2!=0)
+               {
+                  timearray.push({time:t+1,text :smile1})
+                  index=timearray.findIndex((obj=>obj.time==t+1))
+                  let counter=0
+                  for(let i=0;i<timearray.length;i++)
+                  {
+                     if(timearray[i].time==t+1)counter++;
+                  }
+                  console.log('counter',counter)
+
+                  console.log("index",index)
+                  console.log("count",timearray)
+
+
+                  player.markers.add([{
+                        time: t+1,
+                        text: "😕 : " + counter
+                     }]);
+
+               }
+
+
+               else{
+
+                  timearray.push({time:t+2,text :smile1})
+                  index=timearray.findIndex((obj=>obj.time==t+2))
+                  let counter=0
+                  for(let i=0;i<timearray.length;i++)
+                  {
+                     if(timearray[i].time==t+2)counter++;
+                  }
+                  console.log('counter',counter)
+
+                  console.log("index",index)
+                  console.log("count",timearray)
+
+                  player.markers.add([{
+                        time: t+2,
+                        text: "😕 : " + counter
+                     }]);
+               }
+               
+              
+
+
+                
+            } 
+
+
+
+
+
+
+            var myButton2 = player.controlBar.addChild("button");
+            var myButtonDom2 = myButton2.el();
+            myButtonDom2.innerHTML = '<button>Comment &#9993</button>';
+            myButtonDom2.style.cssText = 'font-size: 25px;';
+            myButtonDom2.onclick = function(){
+
+
+
+               console.log("hello")
+            
+               openForm();
+
+             
+            } 
+
+
+
+
+            function start(s)
+            {
+               $(document).ready(function(){
+               // insert marker list
+               // for(var i =s-1; i < emote.length; i++){
+                  var item = $("<li data-index='"+s+"'><a href='#'>"+emote[s-1].text+"</a></li>");
+                  $("#marker-list").append(item);
+               // }
+
+               // set up click event
+               $("#marker-list li").click(function(){
+                  var index = $(this).data("index");
+                  console.log(index)
+
+                  player.currentTime(emote[index-1].time);
+               });
+
+            });
+      }
+
+      $(document).ready(function(){
+    
+  $(".moveToVideoJs").appendTo($('#test_video'));
+		// show advertisement label while play advertisement
+		
+		// Stop from seeking while playing advertisement
+		
+		
+		// Hide Advertisement label and change data-src of player to play actual video
+		
+});
+
+function openForm() {
+
+   if (open==0){
+      document.getElementById("myForm").style.display = "block";
+      open=1
+
+   }
+   else
+   {
+      document.getElementById("myForm").style.display = "none";
+      open=0
+
+   }
+
+
+}
+
+function closeForm() {
+
+   open=0
+  document.getElementById("myForm").style.display = "none";
+
+}
+
+function submit()
+{
+   open=0
+   var cmt=document.getElementById("user_input").value;
+   console.log(cmt)
+   document.getElementById('display').innerHTML = document.getElementById("user_input").value;
+
+   comment.push({time:player.currentTime(),text :cmt+" "+player.currentTime()})
+   console.log(comment[0].text)
+
+   $(document).ready(function(){
+         // insert marker list
+               // for(var i =s-1; i < emote.length; i++){
+                  console.log("okok")
+                  var item1 = $("<li data-commentindex='"+c+"'><a href='#'>"+comment[c].text+"</a></li>");
+                  $("#marker-list1").append(item1);
+               // }
+
+               // set up click event
+               $("#marker-list1 li").click(function(){
+                  var index1 = $(this).data("commentindex");
+                  console.log(index1)
+
+                  player.currentTime(comment[index1].time);
+               });
+               c++;
+
+            });
+
+
+
+   document.getElementById("myForm").style.display = "none";
+
+    
+}
+
+      
+
+   $(document).ready(function(){
+      // insert marker list
+      for(var i =0; i < markers.length; i++){
+         var item = $("<li data-index='"+i+"'><a href='#'>"+markers[i].text+"</a></li>");
+         $("#marker-list").append(item);
+      }
+
+      // set up click event
+      $("#marker-list li").click(function(){
+         var index = $(this).data("index");
+
+         player.currentTime(markers[index].time);
+      });
+
+   });
+
+
+</script>
+</html>

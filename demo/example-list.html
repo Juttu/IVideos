@@ -15,9 +15,9 @@
 </head>
 <body>
 
-  <p id="smile" style="display: none;">0</p>
-  <h id="sm" style="display: none;" >&#129409; : <h id="count">0</h></h>
-  <p style="width: 20px;display: none;"><span id='display'></span></p>
+   <p id="smile" style="display: none;">0</p>
+   <h id="sm" style="display: none;" >&#129409; : <h id="count">0</h></h>
+   <p style="width: 20px;display: none;"><span id='display'></span></p>
 
    <!-- <input type="checkbox" id="r4"><label for="r4" class="react"  style="--r:15px"><i data-icon="👍"></i></label> -->
 
@@ -161,7 +161,12 @@
    var emote=[];
    var comment=[];
    var timearray=[];
-
+   // var emotearray=[{a:0},
+   //                {b:0},
+   //                {c:0},
+   //                {d:0}]
+   var a,b,c,d=0;
+   var counter=0
 
    document.getElementById("test_video").addEventListener("loadedmetadata", function() {
       // this.currentTime = 10;
@@ -204,7 +209,7 @@
          display: true,
          displayTime: 2,
          text: function(marker) {
-            return "Break overlay: " +"\n\n\n"+ marker.text;
+            return marker.text;
          }
       },
       onMarkerReached: function(marker) {
@@ -221,6 +226,7 @@
             var cnt=0;
             var open=0;
             var c=0;
+            var com=0
 
 
 
@@ -237,40 +243,77 @@
 
 
                         // $(document).ready(function(){
-            tt=1
-            myButtonDom.onclick = function(){
+               tt=1
+               myButtonDom.onclick = function(){
 
                var today = new Date();
-               var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-               console.log(time)
+               var time1 = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+               console.log(time1)
 
-               if(tt!=time){
+               if(tt1!=time1){
 
                
 
-                  tt=time
+                  tt1=time1
+
             
-                  document.getElementById("smile").innerHTML = smile;
-                  var currtime=player.currentTime();
-                  
-                  smile++;
-                        
-                     l=document.getElementById("list").innerText
-                     
-                     
+                     var t=player.currentTime();
+                     t=Math.trunc(t)
+                     console.log(t)
 
-                     console.log(emote.length)
-                     
-                     console.log(emote)
-                     var currenttime1=player.currentTime();
-                        
-                     markers.push({time:player.currentTime(),text :"😀"+player.currentTime()})
-                     emote.push({time:player.currentTime(),text :"😀"+format(Math.trunc(player.currentTime()))})
 
-                                       cnt++;
-                     console.log('Marker',markers)
-                     start(cnt);
-               }
+                     if(t%2!=0)
+                     {
+
+
+                        timearray.push({time:t+1,text :"smile"})
+                        counter=0
+                        a=0
+                        c=0
+                        d=0
+                        emotecountodd(timearray,t)
+
+                        // for(let i=0;i<timearray.length;i++)
+                        // {
+                        //    if(timearray[i].time==t+1 && timearray[i].text=="smile1")counter++;
+                        // }
+
+                        console.log('counter',counter)
+
+                        console.log("count",timearray)
+
+
+                        player.markers.add([{
+                              time: t+1,
+                              text: "😀 : " + a +" "+"😕 : " + counter + " " + "🤒 : " + c +" " +"🥲 :" + d
+                           }]);
+
+                     }
+
+
+                     else{
+
+                        timearray.push({time:t+2,text :"smile"})
+                        index=timearray.findIndex((obj=>obj.time==t+2))
+                        counter=0
+                        a=0
+                        c=0
+                        d=0
+                        emotecount(timearray,t)
+
+                        console.log('smile',a)
+
+                        console.log("index",index)
+                        console.log("count",timearray)
+
+                        player.markers.add([{
+                              time: t+2,
+                              text: "😀 : " + a +" "+"😕 : " + counter + " " + "🤒 : " + c +" " +"🥲 :" + d
+                           }]);
+                     }
+                  }
+               
+              
 
                 
             } 
@@ -305,22 +348,28 @@
 
                      if(t%2!=0)
                      {
-                        timearray.push({time:t+1,text :smile1})
-                        index=timearray.findIndex((obj=>obj.time==t+1))
-                        let counter=0
-                        for(let i=0;i<timearray.length;i++)
-                        {
-                           if(timearray[i].time==t+1)counter++;
-                        }
+
+
+                        timearray.push({time:t+1,text :"doubt"})
+                        counter=0
+                        a=0
+                        c=0
+                        d=0
+                        emotecountodd(timearray,t)
+
+                        // for(let i=0;i<timearray.length;i++)
+                        // {
+                        //    if(timearray[i].time==t+1 && timearray[i].text=="smile1")counter++;
+                        // }
+
                         console.log('counter',counter)
 
-                        console.log("index",index)
                         console.log("count",timearray)
 
 
                         player.markers.add([{
                               time: t+1,
-                              text: " 🤔 : " + counter +  " " + "👍 : " + 1 +" "+"🤒 :" + 2
+                              text: "😀 : " + a +" "+"😕 : " + counter + " " + "🤒 : " + c +" " +"🥲 :" + d
                            }]);
 
                      }
@@ -328,21 +377,20 @@
 
                      else{
 
-                        timearray.push({time:t+2,text :smile1})
-                        index=timearray.findIndex((obj=>obj.time==t+2))
-                        let counter=0
-                        for(let i=0;i<timearray.length;i++)
-                        {
-                           if(timearray[i].time==t+2)counter++;
-                        }
-                        console.log('counter',counter)
+                        timearray.push({time:t+2,text :"doubt"})
+                        counter=0
+                        a=0
+                        c=0
+                        d=0
+                        emotecount(timearray,t)
 
-                        console.log("index",index)
+                        console.log('doubt',counter)
+
                         console.log("count",timearray)
 
                         player.markers.add([{
                               time: t+2,
-                              text: "😕 : " + counter + " " + "👍 : " + 1 +" " +"🤔 :" + 2
+                              text: "😀 : " + a +" "+"😕 : " + counter + " " + "🤒 : " + c +" " +"🥲 :" + d
                            }]);
                      }
                   }
@@ -360,13 +408,73 @@
             myButtonDom3.style.cssText = 'font-size: 18px;';
             myButtonDom3.onclick = function(){
 
+               var today = new Date();
+               var time1 = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+               console.log(time1)
 
+               if(tt1!=time1){
 
-               console.log("hello")
+               
+
+                  tt1=time1
+
             
-               openForm();
+                     var t=player.currentTime();
+                     t=Math.trunc(t)
+                     console.log(t)
 
-             
+
+                     if(t%2!=0)
+                     {
+
+
+                        timearray.push({time:t+1,text :"fever"})
+                        counter=0
+                        a=0
+                        c=0
+                        d=0
+                        emotecountodd(timearray,t)
+
+                        // for(let i=0;i<timearray.length;i++)
+                        // {
+                        //    if(timearray[i].time==t+1 && timearray[i].text=="smile1")counter++;
+                        // }
+
+                        console.log('counter',counter)
+
+                        console.log("count",timearray)
+
+
+                        player.markers.add([{
+                              time: t+1,
+                              text: "😀 : " + a +" "+"😕 : " + counter + " " + "🤒 : " + c +" " +"🥲 :" + d
+                           }]);
+
+                     }
+
+
+                     else{
+
+                        timearray.push({time:t+2,text :"fever"})
+                        index=timearray.findIndex((obj=>obj.time==t+2))
+                        counter=0
+                        a=0
+                        c=0
+                        d=0
+                        emotecount(timearray,t)
+
+                        console.log('smile',a)
+
+                        console.log("index",index)
+                        console.log("count",timearray)
+
+                        player.markers.add([{
+                              time: t+2,
+                              text: "😀 : " + a +" "+"😕 : " + counter + " " + "🤒 : " + c +" " +"🥲 :" + d
+                           }]);
+                     }
+                  }
+
             } 
 
 
@@ -378,9 +486,74 @@
 
 
 
-               console.log("hello")
+               var today = new Date();
+               var time1 = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+               console.log(time1)
+
+               if(tt1!=time1){
+
+               
+
+                  tt1=time1
+
             
-               openForm();
+                     var t=player.currentTime();
+                     t=Math.trunc(t)
+                     console.log(t)
+
+
+                     if(t%2!=0)
+                     {
+
+
+                        timearray.push({time:t+1,text :"sad"})
+                        counter=0
+                        a=0
+                        c=0
+                        d=0
+                        emotecountodd(timearray,t)
+
+                        // for(let i=0;i<timearray.length;i++)
+                        // {
+                        //    if(timearray[i].time==t+1 && timearray[i].text=="smile1")counter++;
+                        // }
+
+                        console.log('counter',counter)
+
+                        console.log("count",timearray)
+
+
+                        player.markers.add([{
+                              time: t+1,
+                              text: "😀 : " + a +" "+"😕 : " + counter + " " + "🤒 : " + c +" " +"🥲 :" + d
+                           }]);
+
+                     }
+
+
+                     else{
+
+                        timearray.push({time:t+2,text :"sad"})
+                        index=timearray.findIndex((obj=>obj.time==t+2))
+                        counter=0
+                        a=0
+                        c=0
+                        d=0
+                        emotecount(timearray,t)
+
+                        console.log('smile',a)
+
+                        console.log("index",index)
+                        console.log("count",timearray)
+
+                        player.markers.add([{
+                              time: t+2,
+                              text: "😀 : " + a +" "+"😕 : " + counter + " " + "🤒 : " + c +" " +"🥲 :" + d
+                           }]);
+                     }
+                  }
+               
+              
 
              
             }
@@ -399,7 +572,6 @@
 
 
 
-               console.log("hello")
             
                openForm();
 
@@ -469,17 +641,19 @@ function submit()
 {
    open=0
    var cmt=document.getElementById("user_input").value;
-   console.log(cmt)
+   console.log("one",cmt)
    document.getElementById('display').innerHTML = document.getElementById("user_input").value;
 
    comment.push({time:player.currentTime(),text :cmt+" "+"@"+" "+ format(Math.trunc(player.currentTime()))})
-   console.log(comment[0].text)
+   console.log("commnetarray",comment)
+   console.log("two",comment[0].text)
 
    $(document).ready(function(){
          // insert marker list
                // for(var i =s-1; i < emote.length; i++){
                   console.log("okok")
-                  var item1 = $("<div class=\"tooltip\"><li data-commentindex='"+c+"'><a href='#'>"+comment[c].text+"</a></li><span class=\"tooltiptext\">Clicking this makes you go to the timestamp </span></div>");
+                  var item1 = $("<div class=\"tooltip\"><li data-commentindex='"+com+"'><a href='#'>"+comment[com].text+"</a></li><span class=\"tooltiptext\">Clicking this makes you go to the timestamp </span></div>");
+                  console.log("three",item1)
                   $("#marker-list1").append(item1);
                // }
 //                <div class="tooltip"><li data-commentindex='"+c+"'><a href='#'>"+comment[c].text+"</a></li>
@@ -492,7 +666,7 @@ function submit()
 
                   player.currentTime(comment[index1].time);
                });
-               c++;
+               com++;
 
             });
 
@@ -537,8 +711,47 @@ function submit()
 }
 
 //Facebook Comments Js
+function emotecount(timearray,t)
+{
+   
 
-         
+      for(let i=0;i<timearray.length;i++)
+      {
+         if(timearray[i].time==t+2 && timearray[i].text=="doubt")counter++;
+         if(timearray[i].time==t+2 && timearray[i].text=="smile")a++;
+         if(timearray[i].time==t+2 && timearray[i].text=="fever")c++;
+         if(timearray[i].time==t+2 && timearray[i].text=="sad")d++;
+
+
+
+      }
+      console.log("ttttt",t)
+
+      console.log("smilefun",a)
+
+      // return counter,a,c,d
+}
+function emotecountodd(timearray,t)
+{
+   
+
+      for(let i=0;i<timearray.length;i++)
+      {
+         if(timearray[i].time==t+1 && timearray[i].text=="doubt")counter++;
+         if(timearray[i].time==t+1 && timearray[i].text=="smile")a++;
+         if(timearray[i].time==t+1 && timearray[i].text=="fever")c++;
+         if(timearray[i].time==t+1 && timearray[i].text=="sad")d++;
+
+
+
+      }
+      console.log("ttttt",t)
+
+      console.log("smilefun",a)
+
+      // return counter,a,c,d
+}
+
 
          
 

@@ -83,7 +83,7 @@
   <li>good</li> -->
   
 </ul>
-<ul style="margin-left: 0%; margin-top: 25%;width: 390px;" id='marker-list'>
+<ul style="margin-left: 0%; margin-top: 25%;width: 390px;">
   
 <div >
    <body>
@@ -228,9 +228,9 @@
 //emote1
             var myButton = player.controlBar.addChild("button");
             var myButtonDom = myButton.el();
-            // myButtonDom.innerHTML = '<button class="b1" <span style="font-size:25px;"">&#128512; </span></button>';
+            myButtonDom.innerHTML = '<button class="b1" <span style="font-size:25px;""><input class="emote" type="checkbox" id="r4"><label for="r4" class="react"  style="--r:40px"><i data-icon="👍"></i></label></span></button>';
             // myButtonDom.innerHTML = '<IMG SRC="sm1.gif" style="width:30px;height:30px;">';
-            myButtonDom.innerHTML = '<input type="checkbox" id="r4"><label for="r4" class="react"  style="--r:40px"><i data-icon="👍"></i></label>';
+            // myButtonDom.innerHTML = '<input type="checkbox" id="r4"><label for="r4" class="react"  style="--r:30px"><i data-icon="👍"></i></label>';
 
 
 
@@ -238,55 +238,40 @@
 
 
                         // $(document).ready(function(){
-
+            tt=1
             myButtonDom.onclick = function(){
-            
-               document.getElementById("smile").innerHTML = smile;
-               var currtime=player.currentTime();
-            // console.log(markers[0].time)
+
+               var today = new Date();
+               var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+               console.log(time)
+
+               if(tt!=time){
+
                
-                                 smile++;
-                     
-                  l=document.getElementById("list").innerText
-                  // console.log(l)
-                  // player.markers.add([{
-                  //       time: 95,
-                  //       text: "😀 : " + smile + "😀 : " + smile
-                  //    }]);
-                    
 
-                  console.log(emote.length)
-                  // emote.push({time:player.currentTime(),text :"😆"+player.currentTime()})
-                  // cnt++;
-                  console.log(emote)
-                  var currenttime1=player.currentTime();
-                     
-                     // var item1 = $("<li data-index='"+j+"'><a href='#'>"+emote[j].text+"</a></li>");
-                     // j++;
-                     // $("#marker-list").append(item1);
-
-
-         
+                  tt=time
+            
+                  document.getElementById("smile").innerHTML = smile;
+                  var currtime=player.currentTime();
                   
-                  // if(currtime>markers[0].time && currtime <markers[1].time )
-                  // {
-                  //       // console.log("ok")
-                  //                smile1++;
-                  //                player.markers.add([{
-                  //                      time: markers[1].time,
-                  //                      text: "😀 : "+ smile1 + "😀 : " + smile1,
-                                       
-                  //                   }]);
-                  //                   // emote.push({time:player.currentTime(),text :"😆"+player.currentTime()})
-                  //                   // cnt++;
-         
-                  // }
-                  markers.push({time:player.currentTime(),text :"😀"+player.currentTime()})
-                  emote.push({time:player.currentTime(),text :"😀"+format(Math.trunc(player.currentTime()))})
+                  smile++;
+                        
+                     l=document.getElementById("list").innerText
+                     
+                     
 
-                                    cnt++;
-                  console.log('Marker',markers)
-                  start(cnt);
+                     console.log(emote.length)
+                     
+                     console.log(emote)
+                     var currenttime1=player.currentTime();
+                        
+                     markers.push({time:player.currentTime(),text :"😀"+player.currentTime()})
+                     emote.push({time:player.currentTime(),text :"😀"+format(Math.trunc(player.currentTime()))})
+
+                                       cnt++;
+                     console.log('Marker',markers)
+                     start(cnt);
+               }
 
                 
             } 
@@ -294,7 +279,10 @@
 
             var myButton1 = player.controlBar.addChild("button");
             var myButtonDom1 = myButton1.el();
-            myButtonDom1.innerHTML = '<IMG class="b1" SRC="doubt1.gif" style="width:30px;height:30px;">';
+            // myButtonDom1.innerHTML = '<IMG class="b1" SRC="doubt1.gif" style="width:30px;height:30px;">';
+            // myButtonDom1.innerHTML = '<button class="b1" <span style="font-size:2px;""><input "class="emote" type="checkbox" id="r5"><label for="r5" class="react" style="--r:150px" ><i data-icon="🧐"></i></label></span></button>';
+            myButtonDom1.innerHTML = '<button class="b1" <span style="font-size:25px;""><input class="emote" type="checkbox" id="r5"><label for="r5" class="react"  style="--r:40px"><i data-icon="🧐"></i></label></span></button>';
+
             myButtonDom1.style.cssText = 'font-size: 18px;';
 
             myButtonDom1.onclick = function(){

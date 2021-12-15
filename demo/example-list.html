@@ -169,6 +169,7 @@
    </style>
    <link href="http://vjs.zencdn.net/4.3/video-js.css" rel="stylesheet">
    <link href="../dist/videojs.markers.css" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 <body>
@@ -178,9 +179,9 @@
   <div class="videoContainer">
 
    <video id="test_video" muted controls preload="none" preferFullWindow="true" class="video-js vjs-default-skin" width="720" height="350" >
-      <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
-      <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm">
-      <!-- <source src="video.mp4" type="video/mp4"> -->
+      <!-- <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+      <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm"> -->
+      <source src="3min.mp4" type="video/mp4">
 
    </video>
   <div class="moveToVideoJs">
@@ -294,7 +295,7 @@
          display: true,
          displayTime: 2,
          text: function(marker) {
-            return "This is an break overlay: " + marker.text;
+            return "Break overlay: " +"\n\n\n"+ marker.text;
          }
       },
       onMarkerReached: function(marker) {
@@ -333,10 +334,10 @@
                      
                   l=document.getElementById("list").innerText
                   // console.log(l)
-                  player.markers.add([{
-                        time: 95,
-                        text: "😀 : " + smile + "😀 : " + smile
-                     }]);
+                  // player.markers.add([{
+                  //       time: 95,
+                  //       text: "😀 : " + smile + "😀 : " + smile
+                  //    }]);
                     
 
                   console.log(emote.length)
@@ -366,7 +367,7 @@
          
                   // }
                   markers.push({time:player.currentTime(),text :"😀"+player.currentTime()})
-                  emote.push({time:player.currentTime(),text :"😀"+player.currentTime()})
+                  emote.push({time:player.currentTime(),text :"😀"+format(Math.trunc(player.currentTime()))})
 
                                     cnt++;
                   console.log('Marker',markers)
@@ -405,7 +406,7 @@
 
                   player.markers.add([{
                         time: t+1,
-                        text: "😕 : " + counter
+                        text: "😕 : " + counter +  " " + "👍 : " + 1 +" "+"🤔 :" + 2
                      }]);
 
                }
@@ -427,7 +428,7 @@
 
                   player.markers.add([{
                         time: t+2,
-                        text: "😕 : " + counter
+                        text: "😕 : " + counter + " " + "👍 : " + 1 +" " +"🤔 :" + 2
                      }]);
                }
                
@@ -436,6 +437,39 @@
 
                 
             } 
+
+
+            var myButton3 = player.controlBar.addChild("button");
+            var myButtonDom3 = myButton3.el();
+            myButtonDom3.innerHTML = '<button>&#128077</button>';
+            myButtonDom3.style.cssText = 'font-size: 18px;';
+            myButtonDom3.onclick = function(){
+
+
+
+               console.log("hello")
+            
+               openForm();
+
+             
+            } 
+
+
+            var myButton4 = player.controlBar.addChild("button");
+            var myButtonDom4 = myButton4.el();
+            myButtonDom4.innerHTML = '<button>&#129300</button>';
+            myButtonDom4.style.cssText = 'font-size: 18px;';
+            myButtonDom4.onclick = function(){
+
+
+
+               console.log("hello")
+            
+               openForm();
+
+             
+            }
+
 
 
 
@@ -523,7 +557,7 @@ function submit()
    console.log(cmt)
    document.getElementById('display').innerHTML = document.getElementById("user_input").value;
 
-   comment.push({time:player.currentTime(),text :cmt+" "+player.currentTime()})
+   comment.push({time:player.currentTime(),text :cmt+" "+"@"+" "+ format(Math.trunc(player.currentTime()))})
    console.log(comment[0].text)
 
    $(document).ready(function(){
@@ -569,7 +603,21 @@ function submit()
       });
 
    });
+   function format(time) {   
+    // Hours, minutes and seconds
+    var hrs = ~~(time / 3600);
+    var mins = ~~((time % 3600) / 60);
+    var secs = ~~time % 60;
 
+    // Output like "1:01" or "4:03:59" or "123:03:59"
+    var ret = "";
+    if (hrs > 0) {
+        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs;
+    return ret;
+}
 
 </script>
 </html>
